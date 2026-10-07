@@ -15,12 +15,14 @@ public class GradeRepository : IGradeRepository
         _connectionString = configuration.GetConnectionString("GradesDB")!;
     }
 
-    public async Task<IEnumerable<Grade>> GetAllAsync()
+    // studentId es opcional: si llega null, el stored procedure devuelve todas las notas.
+    public async Task<IEnumerable<Grade>> GetAllAsync(int? studentId)
     {
         using var connection = new SqlConnection(_connectionString);
 
         return await connection.QueryAsync<Grade>(
             "usp_Grades_List",
+            new { StudentId = studentId },
             commandType: CommandType.StoredProcedure);
     }
 

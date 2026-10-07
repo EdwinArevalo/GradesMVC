@@ -16,10 +16,13 @@ public class GradesController : Controller
         _studentRepository = studentRepository;
     }
 
-    // GET: /Grades
-    public async Task<IActionResult> Index()
+    // GET: /Grades              -> todas las notas
+    // GET: /Grades?studentId=2  -> solo las notas de ese estudiante
+    public async Task<IActionResult> Index(int? studentId)
     {
-        var grades = await _gradeRepository.GetAllAsync();
+        var grades = await _gradeRepository.GetAllAsync(studentId);
+
+        await LoadStudentsAsync(studentId);
         return View(grades);
     }
 
@@ -90,9 +93,10 @@ public class GradesController : Controller
     }
 
     // Envía a la vista la lista de estudiantes para llenar el combo (select).
-    private async Task LoadStudentsAsync()
+    // selectedStudentId indica cuál debe aparecer seleccionado (se usa en el filtro).
+    private async Task LoadStudentsAsync(int? selectedStudentId = null)
     {
         var students = await _studentRepository.GetAllAsync();
-        ViewData["Students"] = new SelectList(students, "StudentId", "FullName");
+        ViewData["Students"] = new SelectList(students, "StudentId", "FullName", selectedStudentId);
     }
 }

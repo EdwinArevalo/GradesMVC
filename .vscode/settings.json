@@ -1,3 +1,6 @@
 {
-    "dotnet.defaultSolution": "Grades.slnx"
+    "dotnet.defaultSolution": "Grades.slnx",
+    "dotnet.projects.enableFileBasedPrograms": false,
+    "dotnet.projects.enableFileBasedProgramsWhenAmbiguous": false,
+    "dotnet.fileBasedApps.enableAutomaticDiscovery": false
 }

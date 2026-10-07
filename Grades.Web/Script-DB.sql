@@ -136,7 +136,10 @@ GO
 -- STORED PROCEDURES: Grades
 -- =============================================================
 
+-- Lista las notas. Si se envía @StudentId, solo las de ese estudiante;
+-- si llega NULL, las de todos.
 CREATE OR ALTER PROCEDURE usp_Grades_List
+    @StudentId INT = NULL
 AS
 BEGIN
     SELECT g.GradeId, g.StudentId, g.Course, g.Score1, g.Score2, g.Score3,
@@ -144,6 +147,7 @@ BEGIN
     FROM Grades g
     INNER JOIN Students s ON s.StudentId = g.StudentId
     WHERE g.IsActive = 1
+      AND (@StudentId IS NULL OR g.StudentId = @StudentId)
     ORDER BY s.LastName, s.FirstName, g.Course;
 END
 GO
