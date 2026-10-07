@@ -1,0 +1,17 @@
+# Resultados de compilación de .NET
+bin/
+obj/
+
+# Archivos propios de cada editor / usuario
+.vs/
+.idea/
+*.user
+*.suo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración local que no se comparte
+appsettings.*.local.json
+.env

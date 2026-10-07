@@ -1,0 +1,30 @@
+@model Grade
+
+<tr>
+    <td>@Model.StudentName</td>
+    <td>@Model.Course</td>
+    <td>@Model.Score1</td>
+    <td>@Model.Score2</td>
+    <td>@Model.Score3</td>
+    <td>@Model.Average</td>
+    <td>
+        @if (Model.Status == "Aprobado")
+        {
+            <span class="badge bg-success">@Model.Status</span>
+        }
+        else
+        {
+            <span class="badge bg-danger">@Model.Status</span>
+        }
+    </td>
+    <td class="text-end">
+        <a asp-action="Edit" asp-route-id="@Model.GradeId" class="btn btn-sm btn-outline-primary">Editar</a>
+
+        <form asp-action="Delete" asp-route-id="@Model.GradeId" method="post" class="d-inline">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('¿Eliminar esta nota?');">
+                Eliminar
+            </button>
+        </form>
+    </td>
+</tr>

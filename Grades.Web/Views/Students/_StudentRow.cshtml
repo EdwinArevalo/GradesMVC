@@ -1,0 +1,18 @@
+@model Student
+
+<tr>
+    <td>@Model.Code</td>
+    <td>@Model.FirstName</td>
+    <td>@Model.LastName</td>
+    <td>@Model.Email</td>
+    <td class="text-end">
+        <a asp-action="Edit" asp-route-id="@Model.StudentId" class="btn btn-sm btn-outline-primary">Editar</a>
+
+        <form asp-action="Delete" asp-route-id="@Model.StudentId" method="post" class="d-inline">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('¿Eliminar a @Model.FullName y sus notas?');">
+                Eliminar
+            </button>
+        </form>
+    </td>
+</tr>

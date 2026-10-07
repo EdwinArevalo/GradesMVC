@@ -1,0 +1,37 @@
+# Levanta SQL Server y crea la base de datos GradesDB con sus datos de prueba.
+# Uso:  docker compose up -d
+services:
+
+  # Servidor SQL Server
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    container_name: grades-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "GradesDemo_2026"
+    ports:
+      - "1433:1433"
+    volumes:
+      - grades-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P GradesDemo_2026 -C -Q "SELECT 1" -b
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  # Ejecuta Script-DB.sql (tablas, datos y stored procedures) y termina.
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    container_name: grades-db-init
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./Grades.Web/Script-DB.sql:/scripts/Script-DB.sql:ro
+    command: /opt/mssql-tools18/bin/sqlcmd -S db -U sa -P GradesDemo_2026 -C -b -i /scripts/Script-DB.sql
+
+volumes:
+  grades-data:

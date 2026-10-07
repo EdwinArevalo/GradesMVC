@@ -1,0 +1,30 @@
+@model IEnumerable<Student>
+
+@{
+    ViewData["Title"] = "Estudiantes";
+}
+
+<h1>Estudiantes</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo estudiante</a>
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            @* Cada fila se dibuja con una vista parcial *@
+            <partial name="_StudentRow" model="student" />
+        }
+    </tbody>
+</table>
